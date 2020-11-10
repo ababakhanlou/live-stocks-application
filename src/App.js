@@ -1,41 +1,26 @@
 import React from "react";
+import Banner from "./components/Banner";
+import StockList from "./components/StockList";
+import Socket from "./services/Socket";
+
 import "./App.css";
 
 function App() {
-  const socket = new WebSocket(
-    "wss://ws.finnhub.io?token=bukp1in48v6qi7366f9g"
-  );
-
-  socket.onopen = () => {
-    console.log("Connected!");
-    //socket.send(JSON.stringify({ type: "subscribe", symbol: "AAPL" }));
-  };
-
-  // Listen for messages
-  //socket.addEventListener("message", function (event) {
-  // console.log("Message from server ", event.data);
-  //});
-
-  socket.onmessage = (event) => {
-    console.log("Message from server ", event.data);
-  };
-
-  // Unsubscribe
-  const unsubscribe = () => {
-    console.log("unsub");
-    socket.send(JSON.stringify({ type: "unsubscribe", symbol: "AAPL" }));
-  };
-
-  const subscribe = () => {
-    console.log("sub");
-    socket.send(JSON.stringify({ type: "subscribe", symbol: "AAPL" }));
-  };
+  const socket = new Socket();
 
   return (
     <div className="App">
-      <p>asdasda</p>
-      <button onClick={() => unsubscribe()}>stop</button>
-      <button onClick={() => subscribe()}>start</button>
+      <Banner />
+      <div className="App-stocks">
+        <StockList name="Apple" />
+        <StockList name="Amazon" />
+        <StockList name="Microsoft" />
+        <StockList name="Google" />
+        <StockList name="Facebook" />
+        <StockList name="Tesla" />
+      </div>
+      <button onClick={socket.subscribe}> sub</button>
+      <button onClick={socket.unsubscribe}> unsub</button>
     </div>
   );
 }
