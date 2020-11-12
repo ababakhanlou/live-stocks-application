@@ -15,10 +15,11 @@ const StyledStock = styled.div`
   font-weight: 700;
 `;
 
-const StockList = ({ name }) => {
+const StockList = ({ name, code, action }) => {
   return (
-    <StyledStock>
-      <p>{name}</p>
+    <StyledStock onClick={action}>
+      <p>{name}|</p>
+      <p>{code}</p>
     </StyledStock>
   );
 };
