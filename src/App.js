@@ -2,7 +2,7 @@ import React from "react";
 import Banner from "./components/Banner";
 import StockList from "./components/StockList";
 import Socket from "./services/Socket";
-import stocks from "./services/Offering";
+import stocks from "./services/offering";
 
 import "./App.css";
 
@@ -16,14 +16,13 @@ function App() {
         {stocks.map((data) => (
           <StockList
             key={data.name}
-            name={data.name}
-            code={data.code}
-            action={() => console.log(data.name)}
+            data={data}
+            sub={socket.subscribe}
+            unsub={socket.unsubscribe}
+            socket={socket}
           />
         ))}
       </div>
-      <button onClick={socket.subscribe}> sub</button>
-      <button onClick={socket.unsubscribe}> unsub</button>
     </div>
   );
 }

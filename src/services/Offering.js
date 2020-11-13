@@ -1,10 +1,10 @@
 const stockList = [
-  { name: "Apple", code: "APPL" },
+  { name: "Apple", code: "AAPL" },
   { name: "Amazon", code: "AMZN" },
   { name: "Microsoft", code: "MSFT" },
-  { name: "Google", code: "GOOGL" },
+  { name: "IBM", code: "IBM" },
   { name: "Facebook", code: "FB" },
-  { name: "Tesla", code: "TSLA" },
+  { name: "AMD", code: "AMD" },
 ];
 
 export default stockList;

@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Socket from "../services/Socket";
+import StockModal from "./StockModal";
 
 const StyledStock = styled.div`
   height: 150px;
@@ -15,12 +17,32 @@ const StyledStock = styled.div`
   font-weight: 700;
 `;
 
-const StockList = ({ name, code, action }) => {
+const StockList = ({ data, sub, unsub, socket }) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <StyledStock onClick={action}>
-      <p>{name}|</p>
-      <p>{code}</p>
-    </StyledStock>
+    <div>
+      <StyledStock
+        onClick={() => {
+          setShowModal(true);
+          sub(data.code);
+        }}
+      >
+        <p>{data.name}|</p>
+        <p>{data.code}</p>
+      </StyledStock>
+
+      {showModal && (
+        <StockModal
+          data={data}
+          removeModal={() => {
+            setShowModal(false);
+            unsub(data.code);
+          }}
+          socket={socket}
+        />
+      )}
+    </div>
   );
 };
 
