@@ -1,10 +1,9 @@
 class Socket {
-  constructor() {
-    this.priceData = "";
-
+  constructor(setPrice) {
     this.socket = new WebSocket(
       "wss://ws.finnhub.io?token=bukp1in48v6qi7366f9g"
     );
+    this.priceData = "";
 
     this.socket.onopen = () => {
       console.log("Connected!");
@@ -12,14 +11,14 @@ class Socket {
 
     this.socket.onmessage = (event) => {
       console.log("Message from server ", event.data);
-      const a = JSON.parse(event.data);
-      this.priceData = (a?.data && a.data[0]?.p) || this.priceData;
-      // console.log(this.priceData);
+      const parsedData = JSON.parse(event.data);
+      this.priceData =
+        (parsedData?.data && parsedData.data[0]?.p) || this.priceData;
+      setPrice(this.priceData);
     };
 
     this.subscribe = this.subscribe.bind(this);
     this.unsubscribe = this.unsubscribe.bind(this);
-    this.getPriceData = this.getPriceData.bind(this);
   }
 
   unsubscribe(symbol) {
@@ -30,10 +29,6 @@ class Socket {
   subscribe(symbol) {
     console.log("sub");
     this.socket.send(JSON.stringify({ type: "subscribe", symbol }));
-  }
-
-  getPriceData() {
-    return this.priceData;
   }
 }
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Socket from "../services/Socket";
 import StockModal from "./StockModal";
 
 const StyledStock = styled.div`
@@ -17,7 +16,7 @@ const StyledStock = styled.div`
   font-weight: 700;
 `;
 
-const StockList = ({ data, sub, unsub, socket }) => {
+const StockList = ({ data, sub, unsub }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -39,7 +38,6 @@ const StockList = ({ data, sub, unsub, socket }) => {
             setShowModal(false);
             unsub(data.code);
           }}
-          socket={socket}
         />
       )}
     </div>

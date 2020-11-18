@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { clearPrice } from "../actions/stocks";
 import getCompanyData from "../services/getCompanyData";
-//import Socket from "../services/Socket";
 import styled from "styled-components";
 
 const StyledOverlay = styled.div`
@@ -59,7 +60,12 @@ const StyledPrices = styled.div`
   justify-self: center;
 `;
 
-const StockModal = ({ data, removeModal, socket }) => {
+const StockModal = ({ data, removeModal }) => {
+  const dispatch = useDispatch();
+  const clearStockPrice = () => dispatch(clearPrice());
+
+  const stockPrice = useSelector((state) => state.price);
+
   const [companyData, setCompanyData] = useState([]);
   useEffect(() => {
     const getCompany = async () => {
@@ -69,18 +75,12 @@ const StockModal = ({ data, removeModal, socket }) => {
     getCompany();
   }, [data.code]);
 
-  const [stockPrice, setStockPrice] = useState("");
   useEffect(() => {
-    const timerId = setInterval(
-      () => setStockPrice(socket.getPriceData()),
-      1000
-    );
     return () => {
-      clearInterval(timerId);
+      clearStockPrice();
     };
-  }, [socket]);
-
-  console.log(stockPrice);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
@@ -101,7 +101,7 @@ const StockModal = ({ data, removeModal, socket }) => {
           <p>price: {stockPrice}</p>
           <li>Outstanding Shares in Market: {companyData.shareOutstanding}</li>
           <li>
-            Market Cap (In Base Cur {companyData.currency}):{" "}
+            Market Cap (In Base Cur {companyData.currency}):
             {companyData.marketCapitalization}00
           </li>
         </StyledPrices>
