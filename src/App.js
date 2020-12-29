@@ -4,7 +4,7 @@ import { receivePrice } from "./actions/stocks";
 import Banner from "./components/Banner";
 import StockList from "./components/StockList";
 import Socket from "./services/Socket";
-import stocks from "./services/offering";
+import stocks from "./services/Offering";
 
 import "./App.css";
 

@@ -1,7 +1,7 @@
 import { PRICE_RECEIVED, PRICE_CLEARED } from "./../actions/stocks";
 
 const initialState = {
-  price: "N/A",
+  price: "Awaiting Price",
 };
 
 const stocksReducer = (state = initialState, action) => {
