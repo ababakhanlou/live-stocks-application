@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import StockModal from "./StockModal";
+import { setShowModal } from "../actions/stocks";
 
 const StyledStock = styled.div`
   height: 150px;
@@ -16,30 +17,20 @@ const StyledStock = styled.div`
   font-weight: 700;
 `;
 
-const StockList = ({ data, sub, unsub }) => {
-  const [showModal, setShowModal] = useState(false);
+const StockList = ({ data, sub }) => {
+  const dispatch = useDispatch();
 
   return (
     <div>
       <StyledStock
         onClick={() => {
-          setShowModal(true);
+          dispatch(setShowModal(data));
           sub(data.code);
         }}
       >
         <p>{data.name}|</p>
         <p>{data.code}</p>
       </StyledStock>
-
-      {showModal && (
-        <StockModal
-          data={data}
-          removeModal={() => {
-            setShowModal(false);
-            unsub(data.code);
-          }}
-        />
-      )}
     </div>
   );
 };

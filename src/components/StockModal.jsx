@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearPrice } from "../actions/stocks";
 import getCompanyData from "../services/getCompanyData";
+import { setShowModal } from "../actions/stocks";
 import styled from "styled-components";
 
 const StyledOverlay = styled.div`
@@ -61,19 +62,24 @@ const StyledPrices = styled.div`
 `;
 
 const StyledURL = styled.a`
+  text-decoration: none;
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
     text-decoration: none;
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
-    color: white;
-    
+  }
+  color: white;
 `;
 
-const StockModal = ({ data, removeModal }) => {
+const StockModal = ({ unsub }) => {
   const dispatch = useDispatch();
   const clearStockPrice = () => dispatch(clearPrice());
 
   const stockPrice = useSelector((state) => state.price);
+  const showModal = useSelector((state) => state.showModal);
+  const data = useSelector((state) => state.modalData);
 
   const [companyData, setCompanyData] = useState([]);
   useEffect(() => {
@@ -81,8 +87,10 @@ const StockModal = ({ data, removeModal }) => {
       const companyData = await getCompanyData(data.code);
       setCompanyData(companyData);
     };
-    getCompany();
-  }, [data.code]);
+    if (data?.code) {
+      getCompany();
+    }
+  }, [data?.code]);
 
   useEffect(() => {
     return () => {
@@ -91,20 +99,40 @@ const StockModal = ({ data, removeModal }) => {
     // eslint-disable-next-line
   }, []);
 
+  if (!showModal) {
+    return null;
+  }
+
   return (
     <>
       <StyledOverlay />
       <StyledModal>
         <StyledInfo>
           <h2>Company Information</h2>
-          <li>Company Name: {companyData.name}</li>
-          <li>Base Country: {companyData.country}</li>
+          <li>Company Name:{companyData.name}</li>
+          <li>Base Country:{companyData.country}</li>
           <li>Currency: {companyData.currency}</li>
           <li>Exchange: {companyData.exchange}</li>
           <li>Industry: {companyData.finnhubIndustry}</li>
-          <li>Website: <StyledURL href={companyData.weburl} target="_blank" rel="noreferrer noopener">{companyData.weburl}</StyledURL></li>
+          <li>
+            Website:{" "}
+            <StyledURL
+              href={companyData.weburl}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {companyData.weburl}
+            </StyledURL>
+          </li>
         </StyledInfo>
-        <StyledX onClick={removeModal}>x</StyledX>
+        <StyledX
+          onClick={() => {
+            dispatch(setShowModal(null));
+            unsub(data.code);
+          }}
+        >
+          x
+        </StyledX>
         <StyledPrices>
           <h2>Current Price</h2>
           <p>price: {stockPrice}</p>
