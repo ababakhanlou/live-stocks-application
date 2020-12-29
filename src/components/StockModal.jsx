@@ -23,7 +23,7 @@ const StyledModal = styled.div`
   height: 500px;
   width: 450px;
   padding: 12px;
-  background-color: green;
+  background-color: orange;
   color: white;
   display: flex;
   flex-grow: 2;
@@ -60,6 +60,15 @@ const StyledPrices = styled.div`
   justify-self: center;
 `;
 
+const StyledURL = styled.a`
+    text-decoration: none;
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+    color: white;
+    
+`;
+
 const StockModal = ({ data, removeModal }) => {
   const dispatch = useDispatch();
   const clearStockPrice = () => dispatch(clearPrice());
@@ -93,7 +102,7 @@ const StockModal = ({ data, removeModal }) => {
           <li>Currency: {companyData.currency}</li>
           <li>Exchange: {companyData.exchange}</li>
           <li>Industry: {companyData.finnhubIndustry}</li>
-          <li>Website: {companyData.weburl}</li>
+          <li>Website: <StyledURL href={companyData.weburl} target="_blank" rel="noreferrer noopener">{companyData.weburl}</StyledURL></li>
         </StyledInfo>
         <StyledX onClick={removeModal}>x</StyledX>
         <StyledPrices>
