@@ -21,8 +21,8 @@ const StyledModal = styled.div`
   position: absolute;
   top: 20%;
   left: 10%;
-  height: 500px;
-  width: 450px;
+  height: 400px;
+  width: 470px;
   padding: 12px;
   background-color: orange;
   color: white;
@@ -39,6 +39,11 @@ const StyledX = styled.button`
   align-self: start;
   justify-content: right;
   justify-self: right;
+  border: none;
+  color: white;
+  background-color: orange;
+  font-weight: 900;
+  font-size: 30px;
 `;
 
 const StyledInfo = styled.ul`
