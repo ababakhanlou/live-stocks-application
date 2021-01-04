@@ -42,7 +42,7 @@ const StyledX = styled.button`
   border: none;
   color: white;
   background-color: orange;
-  font-weight: 900;
+  font-weight: 500;
   font-size: 30px;
 `;
 
